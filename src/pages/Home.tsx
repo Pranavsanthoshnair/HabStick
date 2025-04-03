@@ -2,6 +2,8 @@ import { Link } from 'react-router-dom';
 import { useAppContext } from '../context/AppContext';
 import ScrollAnimation from '../components/ScrollAnimation';
 
+import DeviceStats from '../components/DeviceStats';
+
 export default function Home() {
   const { showNotification } = useAppContext();
 
@@ -15,6 +17,7 @@ export default function Home() {
 
   return (
     <div className="app-container">
+      <DeviceStats className="mb-8" />
       {/* Hero section */}
       <div className="hero-section">
         <ScrollAnimation type="fade-down" delay={100}>
@@ -91,7 +94,6 @@ export default function Home() {
     </div>
   );
 }
-
 const features = [
   {
     name: 'Obstacle Detection',

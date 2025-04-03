@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useAppContext } from '../context/AppContext';
 import { updateProfile } from 'firebase/auth';
+import LocationMap from '../components/LocationMap';
 
 export default function Profile() {
   const { currentUser, isAuthenticated, logout } = useAuth();
@@ -159,6 +160,77 @@ export default function Profile() {
           </div>
         </div>
         
+        <div className="mt-8 bg-white shadow overflow-hidden sm:rounded-lg">
+          <div className="px-4 py-5 sm:px-6">
+            <h2 className="text-lg font-medium text-gray-900">Device Statistics</h2>
+            <p className="mt-1 text-sm text-gray-500">
+              View your HabStick device information and recordings.
+            </p>
+          </div>
+          <div className="border-t border-gray-200 px-4 py-5 sm:p-6">
+            <h3 className="text-sm font-medium text-gray-900 mb-4">Live Location</h3>
+            <LocationMap className="mb-6" />
+          </div>
+          <div className="border-t border-gray-200 px-4 py-5 sm:p-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="bg-gray-50 p-4 rounded-lg">
+                <h3 className="text-sm font-medium text-gray-900">Battery Status</h3>
+                <div className="mt-2">
+                  <div className="flex items-center">
+                    <div className="w-full bg-gray-200 rounded-full h-2.5">
+                      <div className="bg-green-600 h-2.5 rounded-full" style={{ width: '85%' }}></div>
+                    </div>
+                    <span className="ml-2 text-sm text-gray-600">85%</span>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="bg-gray-50 p-4 rounded-lg">
+                <h3 className="text-sm font-medium text-gray-900">Usage Statistics</h3>
+                <div className="mt-2 space-y-2">
+                  <div className="flex justify-between">
+                    <span className="text-sm text-gray-600">Total Distance</span>
+                    <span className="text-sm font-medium">12.5 km</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-sm text-gray-600">Active Time</span>
+                    <span className="text-sm font-medium">5.2 hours</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div className="mt-6">
+              <h3 className="text-sm font-medium text-gray-900">Recent Recordings</h3>
+              <div className="mt-4 grid grid-cols-1 gap-4">
+                <div className="border rounded-lg p-4">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h4 className="text-sm font-medium">Morning Walk</h4>
+                      <p className="text-xs text-gray-500">Today, 8:30 AM - 9:00 AM</p>
+                    </div>
+                    <button className="text-blue-600 hover:text-blue-800 text-sm font-medium">
+                      View Recording
+                    </button>
+                  </div>
+                </div>
+                
+                <div className="border rounded-lg p-4">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h4 className="text-sm font-medium">Evening Route</h4>
+                      <p className="text-xs text-gray-500">Yesterday, 5:15 PM - 5:45 PM</p>
+                    </div>
+                    <button className="text-blue-600 hover:text-blue-800 text-sm font-medium">
+                      View Recording
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div className="mt-8 bg-white shadow overflow-hidden sm:rounded-lg">
           <div className="px-4 py-5 sm:px-6">
             <h2 className="text-lg font-medium text-gray-900">Account Actions</h2>
