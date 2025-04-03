@@ -23,16 +23,22 @@ body {
 }
 
 .navbar {
-  background-color: white;
-  padding: 1.25rem 3rem;
-  box-shadow: 0 4px 12px rgba(2, 132, 199, 0.15);
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 0.5rem 1rem;
+  border-bottom: 1px solid var(--border-color);
   position: sticky;
   top: 0;
-  z-index: 50;
-  border-bottom: 3px solid #bae6fd;
+  background-color: var(--background-color);
+  z-index: 40;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+@media (min-width: 640px) {
+  .navbar {
+    padding: 0.75rem 1.5rem;
+  }
 }
 
 .logo {
@@ -43,6 +49,7 @@ body {
   letter-spacing: -0.5px;
   background: linear-gradient(90deg, #0284c7, #0ea5e9);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   text-shadow: 0px 2px 4px rgba(2, 132, 199, 0.2);
 }
@@ -210,6 +217,7 @@ main {
   margin-bottom: 1.25rem;
   background: linear-gradient(90deg, #0284c7, #38bdf8);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
@@ -289,10 +297,16 @@ main {
 .voice-assistant {
   position: fixed;
   bottom: 30px;
-  right: 30px;
+  left: 30px;
   width: 60px;
   height: 60px;
   border-radius: 50%;
+  z-index: 1001;
+  transform: translateX(0);
+  margin-right: 70px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
   background: linear-gradient(135deg, #0284c7, #0ea5e9);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
   display: flex;
@@ -305,7 +319,7 @@ main {
 }
 
 .voice-assistant:hover {
-  transform: scale(1.1);
+  transform: scale(1.05);
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
 }
 
@@ -355,6 +369,7 @@ main {
   margin-bottom: 1.25rem;
   background: linear-gradient(90deg, #0284c7, #38bdf8);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
@@ -412,9 +427,93 @@ main {
 }
 
 /* Responsive adjustments */
+.chatbot-container {
+  position: fixed;
+  bottom: 100px;
+  right: 20px;
+  max-width: calc(100% - 120px);
+  z-index: 1000;
+  transform: translateX(0);
+  margin-left: 100px;
+}
+
+.mute-button {
+  position: fixed;
+  bottom: 100px;
+  left: 30px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #64748b, #94a3b8);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 1000;
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.mute-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
+}
+
+.mute-button svg {
+  width: 24px;
+  height: 24px;
+  color: white;
+}
+
 @media (max-width: 768px) {
   .navbar {
-    padding: 1rem 1.5rem;
+    padding: 0.75rem;
+  }
+  
+  .nav-links {
+    gap: 0.75rem;
+    margin-right: 0.25rem;
+  }
+  
+  .nav-link {
+    font-size: 0.85rem;
+    padding: 0.3rem 0;
+  }
+  
+  .logo {
+    font-size: 1.5rem;
+  }
+  
+  .voice-assistant {
+    bottom: 20px;
+    left: 20px;
+    width: 50px;
+    height: 50px;
+  }
+  
+  .voice-assistant svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .chatbot-container {
+    bottom: 80px;
+    right: 10px;
+    max-width: calc(100% - 80px);
+    margin-left: 60px;
+  }
+
+  .mute-button {
+    bottom: 90px;
+    left: 20px;
+    width: 45px;
+    height: 45px;
+  }
+
+  .mute-button svg {
+    width: 20px;
+    height: 20px;
   }
   
   .hero-section {
@@ -440,4 +539,4 @@ main {
     max-width: 300px;
     text-align: center;
   }
-} 
+}
