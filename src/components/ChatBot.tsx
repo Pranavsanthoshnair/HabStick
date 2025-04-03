@@ -39,6 +39,16 @@ export default function ChatBot() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
+  // Add styles for better mobile positioning
+  const chatbotStyles = {
+    position: 'fixed' as const,
+    bottom: '20px',
+    right: '20px',
+    zIndex: 50,
+    maxHeight: 'calc(100vh - 100px)',
+    marginTop: 'auto'
+  };
+
   // Scroll to bottom of messages
   useEffect(() => {
     scrollToBottom();
@@ -176,7 +186,7 @@ export default function ChatBot() {
 
       {/* Chat window */}
       {isOpen && (
-        <div className="fixed bottom-20 right-6 w-80 sm:w-96 h-96 bg-white rounded-lg shadow-xl flex flex-col z-50 border border-gray-200 overflow-hidden">
+        <div style={chatbotStyles} className="w-[90vw] sm:w-96 h-[80vh] sm:h-96 bg-white rounded-lg shadow-xl flex flex-col border border-gray-200 overflow-hidden">
           {/* Chat header */}
           <div className="bg-primary-600 text-white p-4 flex justify-between items-center">
             <h3 className="font-semibold">HabStick Assistant</h3>
