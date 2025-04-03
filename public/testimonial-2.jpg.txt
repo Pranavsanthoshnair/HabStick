@@ -1,0 +1,2 @@
+This is a placeholder for testimonial image 2.
+In a real project, you would have an actual JPG image file here. 
