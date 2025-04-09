@@ -6,7 +6,6 @@ import WaveBackground from '../components/WaveBackground';
 import Snowfall from '../components/Snowfall';
 import ParticlesBubble from '../components/ParticlesBubble';
 import AnimatedBackground from '../components/AnimatedBackground';
-import AnimatedCursor from '../components/AnimatedCursor';
 import { ArrowRight } from 'lucide-react';
 
 export default function Home() {
@@ -28,7 +27,6 @@ export default function Home() {
       <ParticlesBubble count={20} color="#60a5fa" maxSize={15} minSize={3} speed={0.3} opacity={0.3} zIndex={2} />
       <FloatingElements count={15} className="z-0 opacity-20" />
       <WaveBackground className="h-64 -bottom-32 opacity-30" />
-      <AnimatedCursor color="#3b82f6" size={8} ringSize={24} trailLength={8} zIndex={9999} />
       
       <div className="hero-section relative z-10">
         <ScrollAnimation type="fade-down" delay={100}>
