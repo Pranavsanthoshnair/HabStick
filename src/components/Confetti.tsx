@@ -13,9 +13,9 @@ const Confetti = ({
   particleCount = 200,
   colors = ['#f44336', '#e91e63', '#9c27b0', '#673ab7', '#3f51b5', '#2196f3', '#03a9f4', '#00bcd4', '#009688', '#4CAF50', '#8BC34A', '#CDDC39', '#FFEB3B', '#FFC107', '#FF9800', '#FF5722']
 }: ConfettiProps) => {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const particles = useRef<any[]>([]);
-  const animationFrameId = useRef<number>();
+  const animationFrameId = useRef<number | null>(null);
   const startTime = useRef<number>(0);
 
   useEffect(() => {
@@ -50,10 +50,14 @@ const Confetti = ({
     
     startTime.current = Date.now();
     
-    // Animation loop
+    // Animation function
     const animate = () => {
-      if (Date.now() - startTime.current > duration) {
-        if (animationFrameId.current) {
+      const now = Date.now();
+      const elapsed = now - startTime.current;
+      
+      if (elapsed > duration) {
+        // Stop animation after duration
+        if (animationFrameId.current !== null) {
           cancelAnimationFrame(animationFrameId.current);
         }
         return;
@@ -61,45 +65,55 @@ const Confetti = ({
       
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       
-      particles.current.forEach(p => {
-        p.y += p.speed;
-        p.x += Math.sin(p.angle) * p.oscillationDistance;
-        p.angle += p.oscillationSpeed;
+      for (let i = 0; i < particles.current.length; i++) {
+        const p = particles.current[i];
+        
+        // Update position
+        p.x += Math.cos(p.angle) * p.speed;
+        p.y += Math.sin(p.angle) * p.speed + 1; // Add gravity
+        
+        // Add oscillation
+        p.x += Math.cos(elapsed * p.oscillationSpeed) * p.oscillationDistance;
+        
+        // Update rotation
         p.rotation += p.rotationSpeed;
         
+        // Draw particle
         ctx.save();
         ctx.translate(p.x, p.y);
         ctx.rotate(p.rotation);
-        
         ctx.fillStyle = p.color;
         ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
-        
         ctx.restore();
         
-        // Reset if particle goes off screen
+        // Reset if particle is out of screen
         if (p.y > canvas.height) {
-          p.y = -p.size;
-          p.x = Math.random() * canvas.width;
+          particles.current[i] = {
+            ...p,
+            y: -p.size,
+            x: Math.random() * canvas.width,
+          };
         }
-      });
+      }
       
       animationFrameId.current = requestAnimationFrame(animate);
     };
     
     animate();
     
+    // Cleanup
     return () => {
-      if (animationFrameId.current) {
+      if (animationFrameId.current !== null) {
         cancelAnimationFrame(animationFrameId.current);
       }
     };
-  }, [active, duration, particleCount, colors]);
+  }, [active, colors, duration, particleCount]);
   
   if (!active) return null;
   
   return (
-    <canvas 
-      ref={canvasRef} 
+    <canvas
+      ref={canvasRef}
       className="fixed top-0 left-0 w-full h-full pointer-events-none z-50"
     />
   );
