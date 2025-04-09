@@ -6,8 +6,8 @@ import WaveBackground from '../components/WaveBackground';
 import Snowfall from '../components/Snowfall';
 import ParticlesBubble from '../components/ParticlesBubble';
 import AnimatedBackground from '../components/AnimatedBackground';
-import AnimatedCursor from '../components/AnimatedCursor';
 import { ArrowRight } from 'lucide-react';
+import SEO from '../components/SEO';
 
 export default function Home() {
   const { showNotification } = useAppContext();
@@ -22,13 +22,20 @@ export default function Home() {
 
   return (
     <div className="relative">
+      {/* SEO Component */}
+      <SEO 
+        title="HabStick | Revolutionary Smart Blind Stick with AI Navigation"
+        description="HabStick: The #1 Smart Blind Stick with AI-powered navigation. Features real-time obstacle detection, voice assistance, GPS tracking, and emergency alerts."
+        keywords="HabStick, smart blind stick, AI navigation aid, electronic walking stick for blind, smart cane, assistive technology, blind navigation device, obstacle detection system"
+        image="https://www.habstick.com/home-og-image.jpg"
+      />
+      
       {/* Animated background elements */}
       <AnimatedBackground color1="#1e40af" color2="#3b82f6" speed={5} zIndex={-1} />
       <Snowfall count={100} speed={0.8} size={1.5} opacity={0.4} zIndex={5} />
       <ParticlesBubble count={20} color="#60a5fa" maxSize={15} minSize={3} speed={0.3} opacity={0.3} zIndex={2} />
       <FloatingElements count={15} className="z-0 opacity-20" />
       <WaveBackground className="h-64 -bottom-32 opacity-30" />
-      <AnimatedCursor color="#3b82f6" size={8} ringSize={24} trailLength={8} zIndex={9999} />
       
       <div className="hero-section relative z-10">
         <ScrollAnimation type="fade-down" delay={100}>
