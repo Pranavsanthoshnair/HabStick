@@ -8,6 +8,7 @@ import {
   User as FirebaseUser
 } from 'firebase/auth';
 import { auth } from '../firebase/config';
+import { useAppContext } from './AppContext';
 
 type AuthContextType = {
   currentUser: FirebaseUser | null;
@@ -25,17 +26,36 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [currentUser, setCurrentUser] = useState<FirebaseUser | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [prevAuthState, setPrevAuthState] = useState<boolean>(false);
+  
+  // Get the showNotification function from AppContext
+  // This will be undefined on first render, but that's OK
+  let showNotification: ((message: string, type?: 'success' | 'error' | 'info') => void) | undefined;
+  try {
+    showNotification = useAppContext()?.showNotification;
+  } catch (e) {
+    // Ignore error - this happens during initial render
+  }
 
   useEffect(() => {
     // Listen for auth state changes
     const unsubscribe = onAuthStateChanged(auth, (user) => {
+      const wasLoggedIn = prevAuthState;
+      const isNowLoggedIn = !!user;
+      
+      // Only show notification when transitioning from logged out to logged in
+      if (!wasLoggedIn && isNowLoggedIn && showNotification) {
+        showNotification('Successfully signed in!', 'success');
+      }
+      
       setCurrentUser(user);
+      setPrevAuthState(!!user);
       setLoading(false);
     });
 
     // Cleanup subscription
     return unsubscribe;
-  }, []);
+  }, [prevAuthState, showNotification]);
 
   // Sign up with email and password
   async function signup(name: string, email: string, password: string): Promise<void> {

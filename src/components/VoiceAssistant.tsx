@@ -233,12 +233,12 @@ const VoiceAssistant = ({ setIsOpen }: VoiceAssistantProps) => {
   };
   
   return (
-    <div className="fixed bottom-6 left-6 z-50">
+    <div className="absolute bottom-16 right-0 z-50">
       <div className="flex flex-col items-center">
         {/* Voice assistant button */}
         <button
           onClick={toggleListening}
-          className={`p-3 rounded-full shadow-lg transition-all flex items-center justify-center mb-2 ${isListening ? 'bg-red-600 animate-pulse' : 'bg-primary-600 hover:bg-primary-700'}`}
+          className={`p-3 rounded-full shadow-lg transition-all flex items-center justify-center mb-2 ${isListening ? 'bg-red-600 animate-pulse' : 'bg-blue-600 hover:bg-blue-700'}`}
           aria-label={isListening ? 'Stop voice assistant' : 'Start voice assistant'}
         >
           <MicrophoneIcon className="h-6 w-6 text-white" />
@@ -247,7 +247,7 @@ const VoiceAssistant = ({ setIsOpen }: VoiceAssistantProps) => {
         {/* Mute button */}
         <button
           onClick={toggleMute}
-          className={`p-3 rounded-full shadow-lg transition-all flex items-center justify-center ${isMuted ? 'bg-gray-600' : 'bg-primary-600 hover:bg-primary-700'}`}
+          className={`p-3 rounded-full shadow-lg transition-all flex items-center justify-center ${isMuted ? 'bg-gray-600' : 'bg-blue-600 hover:bg-blue-700'}`}
           aria-label={isMuted ? 'Unmute voice assistant' : 'Mute voice assistant'}
         >
           {isMuted ? (

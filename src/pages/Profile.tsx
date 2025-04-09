@@ -64,16 +64,16 @@ export default function Profile() {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="max-w-3xl mx-auto">
-        <h1 className="text-3xl font-bold text-gray-900">Your Profile</h1>
-        <p className="mt-2 text-sm text-gray-500">
+        <h1 className="text-3xl font-bold" style={{ color: 'var(--text-primary, #111827)' }}>Your Profile</h1>
+        <p className="mt-2 text-sm" style={{ color: 'var(--text-secondary, #6b7280)' }}>
           Manage your account settings and preferences.
         </p>
         
-        <div className="mt-8 bg-white shadow overflow-hidden sm:rounded-lg">
+        <div className="mt-8 shadow overflow-hidden sm:rounded-lg" style={{ background: 'var(--bg-secondary, #ffffff)', borderColor: 'var(--card-border, #e5e7eb)' }}>
           <div className="px-4 py-5 sm:px-6 flex justify-between items-center">
             <div>
-              <h2 className="text-lg font-medium text-gray-900">Account Information</h2>
-              <p className="mt-1 text-sm text-gray-500">
+              <h2 className="text-lg font-medium" style={{ color: 'var(--text-primary, #111827)' }}>Account Information</h2>
+              <p className="mt-1 text-sm" style={{ color: 'var(--text-secondary, #6b7280)' }}>
                 Your personal details and preferences.
               </p>
             </div>
@@ -81,7 +81,7 @@ export default function Profile() {
               <button
                 type="button"
                 onClick={() => setIsEditing(true)}
-                className="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                className="inline-flex items-center px-4 py-2 border shadow-sm text-sm font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 hover:bg-gray-50"  style={{ background: 'var(--bg-primary, #ffffff)', color: 'var(--text-primary, #374151)', borderColor: 'var(--border-color, #e5e7eb)' }}
               >
                 Edit Profile
               </button>
@@ -102,7 +102,7 @@ export default function Profile() {
                       id="name"
                       value={name}
                       onChange={(e) => setName(e.target.value)}
-                      className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                      className="mt-1 block w-full border rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500" style={{ background: 'var(--input-bg, #ffffff)', color: 'var(--input-text, #111827)', borderColor: 'var(--border-color, #e5e7eb)' }}
                       required
                     />
                   </div>
@@ -117,7 +117,7 @@ export default function Profile() {
                       id="email"
                       value={currentUser.email || ''}
                       disabled
-                      className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 bg-gray-50 text-gray-500"
+                      className="mt-1 block w-full border rounded-md shadow-sm py-2 px-3" style={{ background: 'var(--bg-secondary, #f3f4f6)', color: 'var(--text-tertiary, #6b7280)', borderColor: 'var(--border-color, #e5e7eb)' }}
                     />
                     <p className="mt-1 text-xs text-gray-500">
                       Email cannot be changed. Please contact support for assistance.
@@ -128,13 +128,13 @@ export default function Profile() {
                     <button
                       type="button"
                       onClick={() => setIsEditing(false)}
-                      className="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                      className="inline-flex items-center px-4 py-2 border shadow-sm text-sm font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 hover:bg-gray-50"  style={{ background: 'var(--bg-primary, #ffffff)', color: 'var(--text-primary, #374151)', borderColor: 'var(--border-color, #e5e7eb)' }}
                     >
                       Cancel
                     </button>
                     <button
                       type="submit"
-                      className="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                      className="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 hover:bg-blue-700" style={{ background: 'var(--button-primary, #3b82f6)', color: 'var(--button-text, #ffffff)' }}
                     >
                       Save Changes
                     </button>
@@ -143,23 +143,122 @@ export default function Profile() {
               </form>
             ) : (
               <dl>
-                <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                  <dt className="text-sm font-medium text-gray-500">Full name</dt>
-                  <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{currentUser.displayName || 'Unknown'}</dd>
+                <div className="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6" style={{ background: 'var(--bg-secondary, #f9fafb)' }}>
+                  <dt className="text-sm font-medium" style={{ color: 'var(--text-secondary, #6b7280)' }}>Full name</dt>
+                  <dd className="mt-1 text-sm sm:mt-0 sm:col-span-2" style={{ color: 'var(--text-primary, #111827)' }}>{currentUser.displayName || 'Unknown'}</dd>
                 </div>
-                <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                  <dt className="text-sm font-medium text-gray-500">Email address</dt>
-                  <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{currentUser.email || 'Unknown'}</dd>
+                <div className="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6" style={{ background: 'var(--bg-primary, #ffffff)' }}>
+                  <dt className="text-sm font-medium" style={{ color: 'var(--text-secondary, #6b7280)' }}>Email address</dt>
+                  <dd className="mt-1 text-sm sm:mt-0 sm:col-span-2" style={{ color: 'var(--text-primary, #111827)' }}>{currentUser.email || 'Unknown'}</dd>
                 </div>
-                <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                  <dt className="text-sm font-medium text-gray-500">Member since</dt>
-                  <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{formatJoinDate()}</dd>
+                <div className="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6" style={{ background: 'var(--bg-secondary, #f9fafb)' }}>
+                  <dt className="text-sm font-medium" style={{ color: 'var(--text-secondary, #6b7280)' }}>Member since</dt>
+                  <dd className="mt-1 text-sm sm:mt-0 sm:col-span-2" style={{ color: 'var(--text-primary, #111827)' }}>{formatJoinDate()}</dd>
                 </div>
               </dl>
             )}
           </div>
         </div>
         
+        <div className="mt-8 bg-white shadow overflow-hidden sm:rounded-lg">
+          <div className="px-4 py-5 sm:px-6 flex justify-between items-center">
+            <div>
+              <h2 className="text-lg font-medium text-gray-900">Recent Orders</h2>
+              <p className="mt-1 text-sm text-gray-500">
+                View your recent purchases and order status.
+              </p>
+            </div>
+            <button
+              onClick={() => navigate('/orders')}
+              className="inline-flex items-center px-3 py-1.5 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+            >
+              View All Orders
+            </button>
+          </div>
+          <div className="border-t border-gray-200">
+            <div className="overflow-hidden">
+              <table className="min-w-full divide-y divide-gray-200">
+                <thead className="bg-gray-50">
+                  <tr>
+                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Order
+                    </th>
+                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Date
+                    </th>
+                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Status
+                    </th>
+                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Total
+                    </th>
+                    <th scope="col" className="relative px-6 py-3">
+                      <span className="sr-only">View</span>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="bg-white divide-y divide-gray-200">
+                  <tr>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                      ORD-1234567
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      {new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toLocaleDateString()}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                        Delivered
+                      </span>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      ₹5,000.00
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                      <button onClick={() => navigate('/orders')} className="text-blue-600 hover:text-blue-900">
+                        Details
+                      </button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                      ORD-7654321
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      {new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toLocaleDateString()}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                        Delivered
+                      </span>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      ₹3,000.00
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                      <button onClick={() => navigate('/orders')} className="text-blue-600 hover:text-blue-900">
+                        Details
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div className="border-t border-gray-200 px-4 py-4 sm:px-6">
+            <div className="flex justify-between items-center">
+              <div className="text-sm text-gray-500">
+                <p>Need help with an order?</p>
+              </div>
+              <button
+                onClick={() => navigate('/support')}
+                className="inline-flex items-center px-3 py-1.5 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              >
+                Contact Support
+              </button>
+            </div>
+          </div>
+        </div>
+
         <div className="mt-8 bg-white shadow overflow-hidden sm:rounded-lg">
           <div className="px-4 py-5 sm:px-6">
             <h2 className="text-lg font-medium text-gray-900">Device Statistics</h2>

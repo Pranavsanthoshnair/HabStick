@@ -2,14 +2,15 @@ import { Fragment } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { XMarkIcon, MinusIcon, PlusIcon, TrashIcon } from '@heroicons/react/24/outline';
 import { useAppContext } from '../context/AppContext';
+import { useNavigate } from 'react-router-dom';
 
 export default function Cart({ open, setOpen }: { open: boolean; setOpen: (open: boolean) => void }) {
-  const { cart, showNotification, removeFromCart, updateCartItemQuantity, clearCart } = useAppContext();
+  const { cart, removeFromCart, updateCartItemQuantity } = useAppContext();
+  const navigate = useNavigate();
   
   const handleCheckout = () => {
-    showNotification('Processing your order...', 'success');
-    clearCart();
     setOpen(false);
+    navigate('/checkout');
   };
 
   const totalPrice = cart.reduce((total, item) => total + item.price * item.quantity, 0);
