@@ -7,6 +7,7 @@ type CartItemType = {
   name: string
   price: number
   image: string
+  imageUrl?: string
   quantity: number
   variant?: string
 }
@@ -37,16 +38,20 @@ type AppContextType = {
   clearCart: () => void
   showNotification: (message: string, type?: 'success' | 'error' | 'info', duration?: number) => void
   removeNotification: (id: string) => void
+  isCartOpen: boolean
+  setCartOpen: (isOpen: boolean) => void
 }
 
 // Create context
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
 export function AppProvider({ children }: { children: React.ReactNode }) {
-const [isAuthenticated] = useState(false)
+  const [isAuthenticated] = useState(false)
   const [products] = useState<Product[]>(productData)
   const [cart, setCart] = useState<CartItemType[]>([])
   const [notifications, setNotifications] = useState<NotificationType[]>([])
+  const [isCartOpen, setCartOpen] = useState(false)
+
 // Remove unused navigate declaration since it's not being used
 
   // Load cart from localStorage on mount
@@ -88,6 +93,7 @@ const [isAuthenticated] = useState(false)
           name: product.name,
           price: product.price,
           image: product.imageUrl,
+          imageUrl: product.imageUrl,
           quantity
         },
       ]
@@ -145,6 +151,8 @@ const [isAuthenticated] = useState(false)
         clearCart,
         showNotification,
         removeNotification,
+        isCartOpen,
+        setCartOpen,
       }}
     >
       {children}

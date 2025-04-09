@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { useAppContext } from '../context/AppContext';
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
 
 type AuthMode = 'login' | 'signup';
@@ -17,8 +16,11 @@ export default function Auth() {
   const [firebaseConfigured, setFirebaseConfigured] = useState(true);
   
   const { login, signup, currentUser, error: authError } = useAuth();
-  const { showNotification } = useAppContext();
   const navigate = useNavigate();
+  const location = useLocation();
+  
+  // Get returnUrl from location state
+  const returnUrl = location.state?.returnUrl || '/profile';
 
   // Check if Firebase is configured
   useEffect(() => {
@@ -40,9 +42,17 @@ export default function Auth() {
   // Redirect if user is logged in
   useEffect(() => {
     if (currentUser) {
-      navigate('/profile');
+      // Check if there was a pending checkout
+      const pendingCheckout = localStorage.getItem('pendingCheckout');
+      if (pendingCheckout === 'true') {
+        localStorage.removeItem('pendingCheckout');
+        navigate('/checkout');
+      } else {
+        // Navigate to the returnUrl from location state or to profile as fallback
+        navigate(returnUrl);
+      }
     }
-  }, [currentUser, navigate]);
+  }, [currentUser, navigate, returnUrl]);
   
   const toggleMode = () => {
     setMode(mode === 'login' ? 'signup' : 'login');
@@ -79,10 +89,8 @@ export default function Auth() {
       
       if (mode === 'login') {
         await login(email, password);
-        showNotification('Successfully signed in!', 'success');
       } else {
         await signup(name, email, password);
-        showNotification('Account created successfully!', 'success');
       }
     } catch (err) {
       if (err instanceof Error) {

@@ -1,7 +1,11 @@
 import { useState, useRef, useEffect } from 'react';
-import { ChatBubbleLeftRightIcon, PaperAirplaneIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import { PaperAirplaneIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import axios from 'axios';
-import VoiceAssistant from './VoiceAssistant';
+
+interface ChatBotProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
 
 interface Message {
   role: 'user' | 'assistant';
@@ -31,8 +35,7 @@ const predefinedResponses: Record<string, string> = {
   "about": "HabStick is dedicated to enhancing independence for the visually impaired through innovative navigation technology. Founded by Pranav S Nair, we develop smart navigation aids that combine advanced sensors, voice feedback, and intuitive design."
 };
 
-export default function ChatBot() {
-  const [isOpen, setIsOpen] = useState(false);
+export default function ChatBot({ isOpen, onClose }: ChatBotProps) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -41,9 +44,9 @@ export default function ChatBot() {
 
   // Add styles for better mobile positioning
   const chatbotStyles = {
-    position: 'fixed' as const,
-    bottom: '20px',
-    right: '20px',
+    position: 'absolute' as const,
+    bottom: '16px',
+    right: '0px',
     zIndex: 50,
     maxHeight: 'calc(100vh - 100px)',
     marginTop: 'auto'
@@ -63,10 +66,6 @@ export default function ChatBot() {
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  };
-
-  const toggleChat = () => {
-    setIsOpen(!isOpen);
   };
 
   // Check if the user's input matches any predefined responses
@@ -168,90 +167,76 @@ export default function ChatBot() {
 
   return (
     <>
-      {/* Voice Assistant */}
-      <VoiceAssistant isOpen={isOpen} setIsOpen={setIsOpen} />
-      
-      {/* Chat button */}
-      <button
-        onClick={toggleChat}
-        className="fixed bottom-6 right-6 p-3 rounded-full bg-primary-600 text-white shadow-lg hover:bg-primary-700 transition-all z-50 flex items-center justify-center"
-        aria-label="Chat with us"
-      >
-        {isOpen ? (
-          <XMarkIcon className="h-6 w-6" />
-        ) : (
-          <ChatBubbleLeftRightIcon className="h-6 w-6" />
-        )}
-      </button>
-
       {/* Chat window */}
-      {isOpen && (
-        <div style={chatbotStyles} className="w-[90vw] sm:w-96 h-[80vh] sm:h-96 bg-white rounded-lg shadow-xl flex flex-col border border-gray-200 overflow-hidden">
-          {/* Chat header */}
-          <div className="bg-primary-600 text-white p-4 flex justify-between items-center">
-            <h3 className="font-semibold">HabStick Assistant</h3>
-            <button onClick={toggleChat} className="text-white hover:text-gray-200">
-              <XMarkIcon className="h-5 w-5" />
+      <div style={chatbotStyles} className="w-[90vw] sm:w-96 h-[80vh] sm:h-96 bg-white rounded-lg shadow-xl flex flex-col border border-gray-200 overflow-hidden">
+        {/* Chat header */}
+        <div className="bg-blue-600 text-white p-4 flex justify-between items-center">
+          <h3 className="font-semibold">HabStick Assistant</h3>
+          <button onClick={onClose} className="text-white hover:text-gray-200">
+            <XMarkIcon className="h-5 w-5" />
+          </button>
+        </div>
+
+        {/* Chat messages */}
+        <div className="flex-1 p-4 overflow-y-auto">
+          {messages.length === 0 ? (
+            <div className="text-center text-gray-500 mt-10">
+              <p>How can I help you today?</p>
+            </div>
+          ) : (
+            messages.map((message, index) => (
+              <div
+                key={index}
+                className={`mb-4 ${message.role === 'user' ? 'text-right' : 'text-left'}`}
+              >
+                <div
+                  className={`inline-block p-3 rounded-lg ${
+                    message.role === 'user' 
+                      ? 'bg-gray-100 text-gray-800' 
+                      : 'bg-blue-50 text-blue-800 border border-blue-100'
+                  }`}
+                >
+                  {message.content}
+                </div>
+              </div>
+            ))
+          )}
+          {isLoading && (
+            <div className="text-left mb-4">
+              <div className="inline-block p-3 rounded-lg bg-blue-50 border border-blue-100">
+                <div className="flex space-x-2">
+                  <div className="h-2 w-2 bg-blue-400 rounded-full animate-bounce"></div>
+                  <div className="h-2 w-2 bg-blue-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                  <div className="h-2 w-2 bg-blue-400 rounded-full animate-bounce" style={{ animationDelay: '0.4s' }}></div>
+                </div>
+              </div>
+            </div>
+          )}
+          <div ref={messagesEndRef} />
+        </div>
+
+        {/* Chat input */}
+        <form onSubmit={handleSubmit} className="p-4 border-t border-gray-200">
+          <div className="flex">
+            <input
+              type="text"
+              ref={inputRef}
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              placeholder="Type your message..."
+              className="flex-1 p-2 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              disabled={isLoading}
+            />
+            <button
+              type="submit"
+              className="bg-blue-600 text-white p-2 rounded-r-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50"
+              disabled={isLoading || !input.trim()}
+            >
+              <PaperAirplaneIcon className="h-5 w-5" />
             </button>
           </div>
-
-          {/* Chat messages */}
-          <div className="flex-1 p-4 overflow-y-auto">
-            {messages.length === 0 ? (
-              <div className="text-center text-gray-500 mt-10">
-                <p>How can I help you today?</p>
-              </div>
-            ) : (
-              messages.map((message, index) => (
-                <div
-                  key={index}
-                  className={`mb-4 ${message.role === 'user' ? 'text-right' : 'text-left'}`}
-                >
-                  <div
-                    className={`inline-block p-3 rounded-lg ${message.role === 'user' ? 'bg-primary-100 text-primary-800' : 'bg-gray-100 text-gray-800'}`}
-                  >
-                    {message.content}
-                  </div>
-                </div>
-              ))
-            )}
-            {isLoading && (
-              <div className="text-left mb-4">
-                <div className="inline-block p-3 rounded-lg bg-gray-100">
-                  <div className="flex space-x-2">
-                    <div className="h-2 w-2 bg-gray-400 rounded-full animate-bounce"></div>
-                    <div className="h-2 w-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
-                    <div className="h-2 w-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.4s' }}></div>
-                  </div>
-                </div>
-              </div>
-            )}
-            <div ref={messagesEndRef} />
-          </div>
-
-          {/* Chat input */}
-          <form onSubmit={handleSubmit} className="p-4 border-t border-gray-200">
-            <div className="flex">
-              <input
-                type="text"
-                ref={inputRef}
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                placeholder="Type your message..."
-                className="flex-1 p-2 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
-                disabled={isLoading}
-              />
-              <button
-                type="submit"
-                className="bg-primary-600 text-white p-2 rounded-r-lg hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 disabled:opacity-50"
-                disabled={isLoading || !input.trim()}
-              >
-                <PaperAirplaneIcon className="h-5 w-5" />
-              </button>
-            </div>
-          </form>
-        </div>
-      )}
+        </form>
+      </div>
     </>
   );
 }

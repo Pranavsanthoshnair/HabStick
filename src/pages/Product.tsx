@@ -99,6 +99,16 @@ export default function Product() {
                   </button>
                   <button
                     type="button"
+                    onClick={() => {
+                      handleAddToCart(selectedProduct);
+                      navigate('/checkout');
+                    }}
+                    className="btn-secondary"
+                  >
+                    Buy Now
+                  </button>
+                  <button
+                    type="button"
                     onClick={handleCustomize}
                     className="btn-secondary"
                   >

@@ -2,6 +2,9 @@ import { useState } from 'react';
 import { Disclosure } from '@headlessui/react';
 import { ChevronUpIcon } from '@heroicons/react/20/solid';
 import { useAppContext } from '../context/AppContext';
+import Snowfall from '../components/Snowfall';
+import WaveBackground from '../components/WaveBackground';
+import FloatingElements from '../components/FloatingElements';
 
 const faqs = [
   {
@@ -63,7 +66,12 @@ export default function Support() {
   };
 
   return (
-    <div className="bg-white">
+    <div className="bg-white relative">
+      {/* UI/UX Animations */}
+      <Snowfall count={80} speed={0.7} size={1.5} opacity={0.5} zIndex={5} />
+      <FloatingElements count={8} className="z-0 opacity-20" />
+      <WaveBackground className="h-64 -bottom-32 opacity-20" primaryColor="#3b82f6" secondaryColor="#60a5fa" speed={20} />
+      
       {/* Hero section */}
       <div className="relative isolate overflow-hidden bg-gradient-to-b from-primary-100/20">
         <div className="mx-auto max-w-7xl pb-24 pt-10 sm:pb-32 lg:grid lg:grid-cols-2 lg:gap-x-8 lg:px-8 lg:py-40">
